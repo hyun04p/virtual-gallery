@@ -9,6 +9,7 @@ function generateDataFile(data) {
   fs.writeFileSync(`${appDir}/../store/data.ts`, template, (error) => {
     return;
   });
+  process.exit(0);
 }
 
 getData((data) => generateDataFile(JSON.stringify(data)));
