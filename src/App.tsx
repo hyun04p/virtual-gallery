@@ -1,5 +1,4 @@
-import React from 'react';
-import RootRouter from 'pages';
+import RootRouter from 'routes';
 
 const App = () => {
   return <RootRouter />;
