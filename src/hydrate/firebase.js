@@ -23,8 +23,8 @@ function getData(callback) {
     .get()
     .then((doc) => {
       const data = doc.data();
-      categories = data?.categories;
-      images_by_category = data?.images_by_category;
+      categories = data.categories;
+      images_by_category = data.images_by_category;
       callback({
         categories,
         images_by_category,
