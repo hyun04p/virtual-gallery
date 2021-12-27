@@ -157,7 +157,7 @@ const CMasonry: React.FC<props> = (props) => {
         ? (() => {
             return React.Children.map(props.children, (child: any) => {
               return React.cloneElement(child, {
-                openModal: openModal,
+                openModal: () => {},
               });
             });
           })()

@@ -16,12 +16,11 @@ export const CMasonryContainer = styled.div`
 `;
 
 export const CMasonryItemContainer = styled.div<{ type: string }>`
-  ${(props) =>
-    props.type !== 'video'
-      ? `&:hover {
-    filter: brightness(45%);
-  }`
-      : ''}
+  @media ${devices.nonmobile} {
+    ${(props) => {
+      return props.type !== 'video' ? `&:hover {filter: brightness(45%);}` : '';
+    }}
+  }
 
   cursor: pointer;
 `;
@@ -68,7 +67,7 @@ export const CModalCloseBtn = styled.div`
 `;
 export const CItemContainer = styled.div`
   height: 100%;
-  widht: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,7 +77,7 @@ export const CItemModalImg = styled.img`
   height: auto; /* set to anything and aspect ratio is maintained */
 
   @media ${devices.mobile} {
-    max-height: 70vh;
+    max-height: 50vh;
   }
   @media ${devices.nonmobile} {
     max-height: 50vh;
@@ -102,6 +101,12 @@ export const CModalControllerContainer = styled.div`
        -moz-user-select: none; /* Old versions of Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
+  }
+  > div:first-child:hover {
+    color: #aaa;
+  }
+  > div:nth-child(3):hover {
+    color: #aaa;
   }
   > div:nth-child(2) {
     color: #aaa;
