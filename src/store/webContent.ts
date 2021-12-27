@@ -14,6 +14,14 @@ interface WebContent {
   images_by_category: {
     [key: string]: Tile[];
   };
+  about: {
+    html: string;
+    state: string;
+  };
+  contact: {
+    html: string;
+    state: string;
+  };
 }
 
 // Define the initial state using that type
@@ -42,12 +50,16 @@ export const loadWebContent = createAction(LOAD);
 export const { setCategories, setImagesByCategory } = webContentSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
+export const selectContact = () => (state: RootState) =>
+  state.webContent.contact.html;
+export const selectAbout = () => (state: RootState) =>
+  state.webContent.about.html;
 export const selectCategories = () => (state: RootState) =>
   state.webContent.categories;
 export const selectImagesByCategory =
   (category: string) => (state: RootState) =>
     state.webContent.images_by_category[category];
-export const selectAllImagesByCategories = (state: RootState) =>
+export const selectAllImagesByCategories = () => (state: RootState) =>
   state.webContent.images_by_category;
 
 export default webContentSlice.reducer;

@@ -1,13 +1,17 @@
 import CLogo from 'components/CNavbarLayout/CLogo';
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
+import { useSelector } from 'react-redux';
+import { selectAllImagesByCategories } from 'store/webContent';
 import CMasonryItem from './CMasonryItem';
 import {
+  CItemContainer,
   CItemModal,
   CItemModalImg,
   CMasonryContainer,
   CMasonryRow,
   CModalCloseBtn,
+  CModalControllerContainer,
   CModalHeader,
 } from './styled';
 
@@ -18,6 +22,9 @@ interface props {
 
 const CMasonry: React.FC<props> = (props) => {
   const [modalData, setModalData] = useState('');
+  const [modalIdx, setModalIdx] = useState(0);
+  const image_by_category = useSelector(selectAllImagesByCategories());
+  console.log('h', image_by_category);
 
   const getH = (w1: number, h1: number, w2: number, h2: number, W: number) => {
     if (w2 === 0 && h2 === 0) return (w1 * W) / h1;
@@ -27,6 +34,7 @@ const CMasonry: React.FC<props> = (props) => {
     document.documentElement.clientWidth || 0,
     window.innerWidth || 0
   );
+  const VW = vw;
   vw = vw * 0.92;
   const vh = Math.max(
     document.documentElement.clientHeight || 0,
@@ -119,34 +127,58 @@ const CMasonry: React.FC<props> = (props) => {
     },
   };
 
-  const openModal = (type: string, data: string) => {
-    setModalData(data);
+  const openModal = (type: string, category: string, index: number) => {
+    setModalData(category);
+    setModalIdx(index);
   };
 
   const closeModal = () => {
     setModalData('');
   };
 
+  const shiftModalIndexBy = (by: number) => () => {
+    let idx = modalIdx;
+    for (
+      let i = idx + by;
+      i >= 0 && i < image_by_category[modalData].length;
+      i += by
+    ) {
+      if (image_by_category[modalData][i].type === 'image') {
+        idx = i;
+        break;
+      }
+    }
+    setModalIdx(idx);
+  };
+
   return (
     <CMasonryContainer>
-      {heightList.map(({ height, elements }, idx) => (
-        <CMasonryRow
-          height={height}
-          spacing={SPACING}
-          last={!isLastRowComplete && idx === heightList.length - 1}
-          key={`CMRow-${idx}`}
-        >
-          {(() => {
-            const ret = React.Children.map(elements, (child: any) => {
+      {VW < 801
+        ? (() => {
+            return React.Children.map(props.children, (child: any) => {
               return React.cloneElement(child, {
                 openModal: openModal,
-                realHeight: height,
               });
             });
-            return ret;
-          })()}
-        </CMasonryRow>
-      ))}
+          })()
+        : heightList.map(({ height, elements }, idx) => (
+            <CMasonryRow
+              height={height}
+              spacing={SPACING}
+              last={!isLastRowComplete && idx === heightList.length - 1}
+              key={`CMRow-${idx}`}
+            >
+              {(() => {
+                const ret = React.Children.map(elements, (child: any) => {
+                  return React.cloneElement(child, {
+                    openModal: openModal,
+                    realHeight: height,
+                  });
+                });
+                return ret;
+              })()}
+            </CMasonryRow>
+          ))}
       <ReactModal
         style={modalStyle}
         isOpen={modalData !== ''}
@@ -161,7 +193,25 @@ const CMasonry: React.FC<props> = (props) => {
             <CModalCloseBtn onClick={closeModal}>CLOSE</CModalCloseBtn>
             <CLogo link={false} />
           </CModalHeader>
-          <CItemModalImg src={modalData} />
+          <CItemContainer>
+            <CItemModalImg
+              src={
+                modalData !== ''
+                  ? image_by_category[modalData][modalIdx].data
+                  : ''
+              }
+            />
+          </CItemContainer>
+
+          <CModalControllerContainer>
+            <div onClick={shiftModalIndexBy(-1)}>{`prev`}</div>
+            <div>
+              {modalData !== ''
+                ? `${modalIdx + 1}/${image_by_category[modalData].length}`
+                : ''}
+            </div>
+            <div onClick={shiftModalIndexBy(1)}>{`next`}</div>
+          </CModalControllerContainer>
         </CItemModal>
       </ReactModal>
     </CMasonryContainer>

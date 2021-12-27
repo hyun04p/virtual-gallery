@@ -13,6 +13,8 @@ interface props {
   type: string;
   openModal?: any;
   realHeight?: number;
+  index: number;
+  category: string;
 }
 
 const CMasonryItem: React.FC<props> = (props) => {
@@ -30,7 +32,8 @@ const CMasonryItem: React.FC<props> = (props) => {
     );
 
   const toggleModal = () => {
-    props.openModal(props.type, props.data);
+    console.log(props.category, props.index);
+    props.openModal(props.type, props.category, props.index);
   };
 
   return (

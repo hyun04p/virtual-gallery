@@ -14,13 +14,15 @@ const Collection: React.FC<props> = (props) => {
   return (
     <CollectionContainer>
       <CMasonry spacing={6} ratio={0.4}>
-        {images.map((img) => (
+        {images.map((img, idx) => (
           <CMasonryItem
             data={img.data}
             width={img.width}
             height={img.height}
             key={img.data}
             type={img.type}
+            category={props.title}
+            index={idx}
           />
         ))}
       </CMasonry>

@@ -17,6 +17,8 @@ function getData(callback) {
 
   let categories;
   let images_by_category;
+  let about;
+  let contact;
 
   db.collection('web-content')
     .doc('main')
@@ -25,7 +27,11 @@ function getData(callback) {
       const data = doc.data();
       categories = data.categories;
       images_by_category = data.images_by_category;
+      about = data.about;
+      contact = data.contact;
       callback({
+        about,
+        contact,
         categories,
         images_by_category,
       });
