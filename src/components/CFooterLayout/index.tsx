@@ -21,7 +21,12 @@ const CFooter: React.FC<props> = (props) => {
         </a>
       </LogoContainer>
       <div>
-        <img src={sponsor} style={{ width: '250px' }} />
+        <img
+          src={
+            'https://firebasestorage.googleapis.com/v0/b/virtual-gallery-76e7b.appspot.com/o/sponsor.jpeg?alt=media&token=004ef53c-d9dc-4a47-a3d6-9e9ef5d8542c'
+          }
+          style={{ width: '250px' }}
+        />
       </div>
     </CFooterContainer>
   );
