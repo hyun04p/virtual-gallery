@@ -2,6 +2,7 @@ import React from 'react';
 import { CFooterContainer, Logo, LogoContainer } from './styled';
 import naver from './naver.png';
 import insta from './instagram.png';
+import sponsor from './sponsor.jpeg';
 
 interface props {}
 
@@ -19,6 +20,9 @@ const CFooter: React.FC<props> = (props) => {
           <Logo src={insta} />
         </a>
       </LogoContainer>
+      <div>
+        <img src={sponsor} style={{ width: '250px' }} />
+      </div>
     </CFooterContainer>
   );
 };
